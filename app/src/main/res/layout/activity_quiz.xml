@@ -29,6 +29,16 @@
             android:text="@string/false_button" />
     </LinearLayout>
     <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/cheat_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cheat_button" />
+    </android.support.v7.widget.LinearLayoutCompat>
+    <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -51,25 +61,5 @@
             android:drawablePadding="4dp"
             />
 
-    </android.support.v7.widget.LinearLayoutCompat>
-    <android.support.v7.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <ImageButton
-            android:id="@+id/prev_button_imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/arrow_left"
-            android:contentDescription="@string/prev_question_button"/>
-
-        <ImageButton
-            android:id="@+id/next_button_imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/arrow_right"
-            android:contentDescription="@string/next_question_button"/>
     </android.support.v7.widget.LinearLayoutCompat>
 </LinearLayout>
