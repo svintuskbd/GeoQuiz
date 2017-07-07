@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +16,7 @@ public class QuizActivity extends AppCompatActivity {
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
     private static final int REQUEST_CODE_CHEAT = 0;
+    private static final String IS_CHEATER = "";
 
     private Button mTrueButton;
     private Button mFalseButton;
@@ -32,12 +32,36 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_americas, true),
             new Question(R.string.question_asia, true),
     };
+    private CheatingQuestion[] mCheatingQuestions;
     private int mCurrentIndex = 0;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause() called");
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop() called");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy() called");
+    }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
+        savedInstanceState.putBoolean(IS_CHEATER, mIsCheater);
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
     }
 
@@ -64,6 +88,7 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mIsCheater = savedInstanceState.getBoolean(IS_CHEATER, false);
         }
 
         updateQuestion();
@@ -89,7 +114,17 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                mIsCheater = false;
+
+                if (mCheatingQuestions != null) {
+                    for (int i = 0; i < mCheatingQuestions.length; i++) {
+                        if (mCheatingQuestions[i].getTitleQuestion() != mQuestionBank[mCurrentIndex].getTextResId()) {
+                            mIsCheater = false;
+                        }
+                    }
+                } else {
+                    mIsCheater = false;
+                }
+
                 updateQuestion();
             }
         });
@@ -141,8 +176,11 @@ public class QuizActivity extends AppCompatActivity {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
         int messageResId = 0;
 
+
+
         if (mIsCheater) {
             messageResId = R.string.judgment_toast;
+            mCheatingQuestions = new CheatingQuestion[] { new CheatingQuestion(mQuestionBank[mCurrentIndex].getTextResId(), true)};
         } else {
 
             if (userPressedTrue == answerIsTrue) {
@@ -153,27 +191,5 @@ public class QuizActivity extends AppCompatActivity {
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause() called");
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume() called");
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop() called");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy() called");
     }
 }
