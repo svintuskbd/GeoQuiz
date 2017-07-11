@@ -32,7 +32,6 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_americas, true),
             new Question(R.string.question_asia, true),
     };
-    private CheatingQuestion[] mCheatingQuestions;
     private int mCurrentIndex = 0;
 
     @Override
@@ -114,16 +113,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-
-                if (mCheatingQuestions != null) {
-                    for (int i = 0; i < mCheatingQuestions.length; i++) {
-                        if (mCheatingQuestions[i].getTitleQuestion() != mQuestionBank[mCurrentIndex].getTextResId()) {
-                            mIsCheater = false;
-                        }
-                    }
-                } else {
-                    mIsCheater = false;
-                }
+                mIsCheater = false;
 
                 updateQuestion();
             }
@@ -180,7 +170,6 @@ public class QuizActivity extends AppCompatActivity {
 
         if (mIsCheater) {
             messageResId = R.string.judgment_toast;
-            mCheatingQuestions = new CheatingQuestion[] { new CheatingQuestion(mQuestionBank[mCurrentIndex].getTextResId(), true)};
         } else {
 
             if (userPressedTrue == answerIsTrue) {

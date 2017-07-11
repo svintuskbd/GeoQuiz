@@ -18,6 +18,6 @@
     <string name="cheat_button">Cheat!</string>
     <string name="judgment_toast">Cheating is wrong.</string>
 
-
+    <string name="api_version">API vercion</string>
     <string name="action_settings">Settings</string>
 </resources>
